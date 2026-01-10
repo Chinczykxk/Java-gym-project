@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.menu1.RegisterController">
+   <children>
+      <Label fx:id="nameRegister" layoutX="228.0" layoutY="52.0" prefHeight="17.0" prefWidth="145.0" text="Name" />
+      <Label fx:id="surnameRegister" layoutX="228.0" layoutY="86.0" prefHeight="17.0" prefWidth="145.0" text="Surname" />
+      <Label fx:id="nickRegister" layoutX="228.0" layoutY="124.0" prefHeight="17.0" prefWidth="145.0" text="Nick" />
+      <Label fx:id="passwordRegister" layoutX="228.0" layoutY="157.0" prefHeight="17.0" prefWidth="145.0" text="Password" />
+      <Label fx:id="ageinPasswordRegister" layoutX="228.0" layoutY="192.0" prefHeight="17.0" prefWidth="145.0" text="AgeinPassword" />
+      <Button fx:id="acceptRegister" layoutX="275.0" layoutY="242.0" mnemonicParsing="false" text="Accept" />
+      <CheckBox fx:id="checkBoxv1Register" layoutX="412.0" layoutY="157.0" mnemonicParsing="false" text="Show" />
+      <CheckBox fx:id="checkBoxv2Register" layoutX="412.0" layoutY="192.0" mnemonicParsing="false" text="Show" />
+   </children>
+</AnchorPane>
