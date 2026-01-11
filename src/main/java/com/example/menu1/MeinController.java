@@ -23,10 +23,9 @@ public class MeinController {
             // Loading file fxml
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
             Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = new Stage();
-            stage.setTitle(title);
+            Stage stage = (Stage) login.getScene().getWindow();
             stage.setScene(scene);
-            stage.show();
+
         } catch (IOException e) {
             System.err.println("Błąd podczas otwierania okna: " + fxmlFile);
             e.printStackTrace();

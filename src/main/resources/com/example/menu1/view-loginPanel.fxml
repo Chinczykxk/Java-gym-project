@@ -5,6 +5,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="448.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.menu1.LoginController">
    <children>
+      <Button fx:id="back" layoutX="372.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="52.0" prefWidth="76.0" text="Go Back" />
       <Label fx:id="nickLogin" layoutX="138.0" layoutY="86.0" prefHeight="17.0" prefWidth="172.0" text="Nick" />
       <TextField layoutX="129.0" layoutY="103.0" prefHeight="25.0" prefWidth="149.0" />
       <Label fx:id="passwordLogin" layoutX="135.0" layoutY="132.0" prefHeight="17.0" prefWidth="158.0" text="Password" />
