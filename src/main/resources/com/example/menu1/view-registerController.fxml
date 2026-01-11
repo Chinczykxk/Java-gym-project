@@ -6,18 +6,18 @@
 <AnchorPane prefHeight="400.0" prefWidth="449.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.menu1.RegisterController">
    <children>
        <Button fx:id="back" layoutX="372.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="52.0" prefWidth="76.0" text="Go Back" />
-      <Label fx:id="nameRegister" layoutX="14.0" layoutY="18.0" prefHeight="17.0" prefWidth="145.0" text="Name" />
-      <Label fx:id="surnameRegister" layoutX="14.0" layoutY="66.0" prefHeight="17.0" prefWidth="145.0" text="Surname" />
-      <Label fx:id="nickRegister" layoutX="14.0" layoutY="118.0" prefHeight="17.0" prefWidth="145.0" text="Nick" />
-      <Label fx:id="passwordRegister" layoutX="14.0" layoutY="166.0" prefHeight="17.0" prefWidth="145.0" text="Password" />
-      <Label fx:id="ageinPasswordRegister" layoutX="14.0" layoutY="218.0" prefHeight="17.0" prefWidth="145.0" text="AgeinPassword" />
-      <Button fx:id="acceptRegister" layoutX="182.0" layoutY="235.0" mnemonicParsing="false" text="Accept" />
+      <Label layoutX="14.0" layoutY="18.0" prefHeight="17.0" prefWidth="145.0" text="Name" />
+      <Label layoutX="14.0" layoutY="66.0" prefHeight="17.0" prefWidth="145.0" text="Surname" />
+      <Label layoutX="14.0" layoutY="118.0" prefHeight="17.0" prefWidth="145.0" text="Nick" />
+      <Label layoutX="14.0" layoutY="166.0" prefHeight="17.0" prefWidth="145.0" text="Password" />
+      <Label layoutX="14.0" layoutY="218.0" prefHeight="17.0" prefWidth="145.0" text="AgeinPassword" />
+      <Button fx:id="acceptRegistration" layoutX="182.0" layoutY="235.0" mnemonicParsing="false" onAction="#handleRegister" text="Accept" />
       <CheckBox fx:id="checkBoxv1Register" layoutX="184.0" layoutY="149.0" mnemonicParsing="false" text="Show" />
       <CheckBox fx:id="checkBoxv2Register" layoutX="184.0" layoutY="184.0" mnemonicParsing="false" text="Show" />
-      <PasswordField layoutX="12.0" layoutY="188.0" />
-      <PasswordField layoutX="12.0" layoutY="241.0" />
-      <TextField layoutX="12.0" layoutY="40.0" />
-      <TextField layoutX="12.0" layoutY="83.0" />
-      <TextField layoutX="12.0" layoutY="137.0" />
+      <PasswordField fx:id="passRegister" layoutX="12.0" layoutY="188.0" />
+      <PasswordField fx:id="ageinpassRegister" layoutX="12.0" layoutY="241.0" />
+      <TextField fx:id="nameRegister" layoutX="12.0" layoutY="40.0" />
+      <TextField fx:id="surnameRegister" layoutX="12.0" layoutY="83.0" />
+      <TextField fx:id="nickRegister" layoutX="12.0" layoutY="137.0" />
    </children>
 </AnchorPane>
