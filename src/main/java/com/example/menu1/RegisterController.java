@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -25,7 +26,9 @@ public class RegisterController {
     public PasswordField passRegister;
     @FXML
     public PasswordField ageinpassRegister;
-
+    @FXML
+    public Label message;
+//TODO mozna dodac jeszcze ukrywanie hasel zeby byly ukryte ale je odkrywaczakrywac a nie ze po kliknieciu guziku sie usuwaja i od nowa trzeba wpisywac
     // Decalrate new database which we use for information about user
     private ConfigUserDatabase db = new ConfigUserDatabase();
 
@@ -47,12 +50,14 @@ public class RegisterController {
             boolean success = db.registerUser(name, surname, nick, pass);
             if (success) {
                 System.out.println("Zarejestrowano pomyślnie!");
-                // dodać powrót do menu głównego
+                message.setText("Zarejestrowano pomyślnie!");
             } else {
                 System.out.println("Błąd: Nick prawdopodobnie zajęty.");
+                message.setText("Błąd: Nick prawdopodobnie zajęty.");
             }
         } else {
             System.out.println("Hasła nie są zgodne!");
+            message.setText("Hasła nie są zgodne!");
         }
 
 
