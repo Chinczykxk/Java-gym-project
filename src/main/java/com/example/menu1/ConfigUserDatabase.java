@@ -36,5 +36,26 @@ public class ConfigUserDatabase {
             return false;
         }
     }
+// method with query to login the user account
+
+    public User loginUser(String nick, String password) {
+        String sql = "SELECT name, surname, nick FROM users WHERE nick = ? AND password = ?";
+        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, nick);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return new User(
+                        rs.getString("name"),
+                        rs.getString("surname"),
+                        rs.getString("nick")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
 
