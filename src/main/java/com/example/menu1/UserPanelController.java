@@ -12,14 +12,22 @@ import java.io.IOException;
 
 //view od user main panel
 public class UserPanelController {
-    @FXML private Label welcomeLabel;
-    @FXML private Label dataLabel;
+    @FXML
+    private Label welcomeLabel;
+    @FXML
+    private Label dataLabel;
+    @FXML
+    private Label hash;
+
+
 
     // method to show the basic data after login to the account
     public void setInfo(User user) {
         welcomeLabel.setText("Witaj, " + user.getNickname() + "!");
         dataLabel.setText("Imię i nazwisko: " + user.getName() + " " + user.getSurname());
     }
+
+
 
     // functionality - action on button back to menu and log out the account
     @FXML

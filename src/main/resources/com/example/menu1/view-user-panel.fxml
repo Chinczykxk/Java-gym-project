@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.text.Font?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.menu1.UserPanelController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.menu1.UserPanelController">
     <children>
         <Label fx:id="welcomeLabel" layoutX="50.0" layoutY="50.0" text="Witaj!">
             <font><Font name="System Bold" size="20.0" /></font>
         </Label>
         <Label fx:id="dataLabel" layoutX="50.0" layoutY="100.0" text="Twoje dane pojawią się tutaj" />
         <Button layoutX="50.0" layoutY="150.0" mnemonicParsing="false" onAction="#backToMenu" text="Wyloguj" />
+      <Label fx:id="hash" layoutX="161.0" layoutY="243.0" />
     </children>
 </AnchorPane>

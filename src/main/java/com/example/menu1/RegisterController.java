@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 
@@ -47,7 +48,11 @@ public class RegisterController {
         String confirm = ageinpassRegister.getText();
 
         if (pass.equals(confirm) && !nick.isEmpty()) {
-            boolean success = db.registerUser(name, surname, nick, pass);
+
+            //We want to implements more security elements so before we sent passwords to the database we hash them
+            String hash = BCrypt.hashpw(pass, BCrypt.gensalt(10));
+
+            boolean success = db.registerUser(name, surname, nick, hash);
             if (success) {
                 System.out.println("Zarejestrowano pomyślnie!");
                 message.setText("Zarejestrowano pomyślnie!");
@@ -59,6 +64,8 @@ public class RegisterController {
             System.out.println("Hasła nie są zgodne!");
             message.setText("Hasła nie są zgodne!");
         }
+
+
 
 
     }

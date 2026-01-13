@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 
@@ -29,11 +30,15 @@ public class LoginController {
     @FXML
     public void handleLogin(ActionEvent event) throws IOException {
 
-                //there is creating new object from class user and we give nick and password to this object from our login form
-                User user = db.loginUser(nickLogin.getText(), passwordLogin.getText());
 
-                //condition if user is not empty we go to new stage with main user panel
-                if (user != null) {
+
+                //We use method from user class so we need a nickname from the login panel
+                User user = db.loginUser(nickLogin.getText());
+                //We don't need a password over here because we will check it in the next condition
+
+                //condition if user is not empty  and the hashed password form database is correct with password from login panel we go to new stage with main user panel
+                //
+                if (user != null && BCrypt.checkpw(passwordLogin.getText(), user.getPassword())) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("view-user-panel.fxml"));
                     Parent root = loader.load();
 

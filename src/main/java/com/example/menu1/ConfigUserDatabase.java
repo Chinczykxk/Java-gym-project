@@ -39,11 +39,10 @@ public class ConfigUserDatabase {
 
 // We use this method to login to user account. We send sql query to database with all of this information but we don't use all off the information right now
 
-    public User loginUser(String nick, String password) {
-        String sql = "SELECT name, password, nick, surname FROM users WHERE nick = ? AND password = ?";
+    public User loginUser(String nick) {
+        String sql = "SELECT name, password, nick, surname FROM users WHERE nick = ? ";
         try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, nick);
-            pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 return new User(
