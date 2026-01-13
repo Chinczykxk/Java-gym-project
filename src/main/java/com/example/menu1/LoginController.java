@@ -22,25 +22,29 @@ public class LoginController {
     @FXML
     public Label logmessage;
 
+    //there we don't create new database but we initialize this class because we will work on elements from this class
     private ConfigUserDatabase db = new ConfigUserDatabase();
 
+    //function on button click what will happen when we click login
     @FXML
     public void handleLogin(ActionEvent event) throws IOException {
 
+                //there is creating new object from class user and we give nick and password to this object from our login form
+                User user = db.loginUser(nickLogin.getText(), passwordLogin.getText());
 
-                User user = db.loginUser(nickInput.getText(), passInput.getText());
-
+                //condition if user is not empty we go to new stage with main user panel
                 if (user != null) {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("user-panel.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("view-user-panel.fxml"));
                     Parent root = loader.load();
 
-                    // Przekazujemy dane do nowego kontrolera
+
                     UserPanelController controller = loader.getController();
                     controller.setInfo(user);
 
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     stage.getScene().setRoot(root);
                 } else {
+                    //there we give information if some of data are not correct
                     logmessage.setText("Błędne dane logowania!");
                 }
             }
@@ -58,6 +62,7 @@ public class LoginController {
 
     }
 
+    //TODO kurde tą funkcje używam kilka razy to backToMenu nie wiem jak to zastąpić w jedną w tym XFML bo mi nie wychodzi jak próbowałem
 
 
 

@@ -21,7 +21,7 @@ public class ConfigUserDatabase {
             e.printStackTrace();
         }
     }
-    // method with query which insert infomration to the table, we use it in class RegisterController
+    // method with query which insert infomration to the table, we use it in class RegisterController. Using this method
     public boolean registerUser(String name, String surname, String nick, String password) {
         String sql = "INSERT INTO users(name, surname, nick, password) VALUES(?,?,?,?)";
         try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -36,20 +36,21 @@ public class ConfigUserDatabase {
             return false;
         }
     }
-// method with query to login the user account
+
+// We use this method to login to user account. We send sql query to database with all of this information but we don't use all off the information right now
 
     public User loginUser(String nick, String password) {
-        String sql = "SELECT name, surname, nick FROM users WHERE nick = ? AND password = ?";
+        String sql = "SELECT name, password, nick, surname FROM users WHERE nick = ? AND password = ?";
         try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, nick);
             pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
-
             if (rs.next()) {
                 return new User(
                         rs.getString("name"),
-                        rs.getString("surname"),
-                        rs.getString("nick")
+                        rs.getString("password"),
+                        rs.getString("nick"),
+                        rs.getString("surname")
                 );
             }
         } catch (SQLException e) {

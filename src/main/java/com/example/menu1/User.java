@@ -1,11 +1,13 @@
 package com.example.menu1;
 
+// basic user class right now it's using only for login to database and basic main user panel.
 public class User {
     String name;
     String password;
     String nickname;
     String surname;
 
+    // basic constructor of user
     public User(String name, String password, String nickname, String surname) {
         this.name = name;
         this.password = password;
@@ -13,6 +15,7 @@ public class User {
         this.surname = surname;
     }
 
+    // only getters and setters method
     public String getSurname() {
         return surname;
     }

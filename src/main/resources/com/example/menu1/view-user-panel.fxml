@@ -16,6 +16,6 @@
             <font><Font name="System Bold" size="20.0" /></font>
         </Label>
         <Label fx:id="dataLabel" layoutX="50.0" layoutY="100.0" text="Twoje dane pojawią się tutaj" />
-        <Button layoutX="50.0" layoutY="150.0" mnemonicParsing="false" onAction="#logout" text="Wyloguj" />
+        <Button layoutX="50.0" layoutY="150.0" mnemonicParsing="false" onAction="#backToMenu" text="Wyloguj" />
     </children>
 </AnchorPane>
