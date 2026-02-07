@@ -1,4 +1,4 @@
-package com.example.menu1;
+package controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -17,34 +17,46 @@ public class MeinController {
     @FXML
     public Button exit;
 
-    // Open new windows method
+    /**
+     * Metoda do otwierania nowych okien.
+     * fxmlFile musi zawierać pełną ścieżkę od folderu resources.
+     */
     public void openNewWindow(String fxmlFile, String title) {
         try {
-            // Loading file fxml
+            // Ważne: "/" na początku oznacza start od głównego folderu resources
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
+
+            if (fxmlLoader.getLocation() == null) {
+                throw new IOException("Nie znaleziono pliku FXML pod ścieżką: " + fxmlFile);
+            }
+
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = (Stage) login.getScene().getWindow();
+
+            stage.setTitle(title);
             stage.setScene(scene);
+            stage.show();
 
         } catch (IOException e) {
-            System.err.println("Błąd podczas otwierania okna: " + fxmlFile);
+            System.err.println("FATALNY BŁĄD: Nie można załadować okna: " + fxmlFile);
             e.printStackTrace();
         }
     }
-    // function on click is calling function with the appropriate parameter to open loginPanel window
+
     @FXML
     public void onClickButtonLogin() {
-        openNewWindow("view-loginPanel.fxml", "Logowanie");
+        // Poprawiona ścieżka uwzględniająca Twój pakiet w resources
+        openNewWindow("/com/example/menu1/view-loginPanel.fxml", "Logowanie");
     }
-    // function on click is calling function with the appropriate parameter to open registerPanel window
+
     @FXML
     public void onClickButtonRegister() {
-        openNewWindow("view-registerController.fxml", "Rejestracja");
+        // Poprawiona ścieżka uwzględniająca Twój pakiet w resources
+        openNewWindow("/com/example/menu1/view-registerController.fxml", "Rejestracja");
     }
-    // close app function
+
     @FXML
     public void onClickButtonExit() {
-
         Platform.exit();
         System.exit(0);
     }

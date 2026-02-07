@@ -1,4 +1,4 @@
-package com.example.menu1;
+package model;
 
 // basic user class right now it's using only for login to database and basic main user panel.
 public class User {

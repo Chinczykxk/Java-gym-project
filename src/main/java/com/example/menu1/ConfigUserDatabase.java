@@ -1,5 +1,7 @@
 package com.example.menu1;
 
+import model.User;
+
 import java.sql.*;
 
 public class ConfigUserDatabase {

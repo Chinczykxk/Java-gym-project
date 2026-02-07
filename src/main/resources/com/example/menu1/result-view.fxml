@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.ResultController" prefWidth="600" prefHeight="400">
+
+    <Label fx:id="lblPlanName" text="Twój Plan Treningowy" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <TableView fx:id="tvExercises" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colName" text="Ćwiczenie" prefWidth="300"/>
+            <TableColumn fx:id="colIntensity" text="Intensywność" prefWidth="100"/>
+            <TableColumn fx:id="colDifficulty" text="Trudność" prefWidth="100"/>
+        </columns>
+    </TableView>
+
+    <Button text="Zamknij" onAction="#handleClose"/>
+</VBox>
