@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="650.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SurveyController">
+   <children>
+      <VBox spacing="10" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="KWESTIONARIUSZ TRENERA" />
+
+            <Accordion fx:id="accordionSurvey" VBox.vgrow="ALWAYS">
+               <panes>
+
+                  <TitledPane text="1. Cel i Doświadczenie">
+                     <content>
+                        <VBox spacing="10.0">
+                           <children>
+                              <Label style="-fx-font-weight: bold;" text="Cel (możesz wybrać kilka):" />
+                              <CheckBox fx:id="cbGoalMass" text="Budowa masy mięśniowej" />
+                              <CheckBox fx:id="cbGoalReduction" text="Redukcja tkanki tłuszczowej" />
+                              <CheckBox fx:id="cbGoalStrength" text="Budowa siły" />
+                              <Separator />
+                              <Label style="-fx-font-weight: bold;" text="Staż (wybierz najbardziej pasujący):" />
+                              <CheckBox fx:id="cbStazPoczatkujacy" text="Początkujący (poniżej 1 roku)" />
+                              <CheckBox fx:id="cbStazSredni" text="Średniozaawansowany (1-3 lata)" />
+                              <CheckBox fx:id="cbStazZaawansowany" text="Zaawansowany (3+ lata)" />
+                           </children>
+                        </VBox>
+                     </content>
+                  </TitledPane>
+
+                  <TitledPane text="2. Dostępny Sprzęt">
+                     <content>
+                        <FlowPane hgap="15.0" vgap="10.0">
+                           <children>
+                              <CheckBox fx:id="cbHantle" text="Hantle" />
+                              <CheckBox fx:id="cbSztanga" text="Sztanga" />
+                              <CheckBox fx:id="cbDrazek" text="Drążek" />
+                              <CheckBox fx:id="cbGumy" text="Gumy oporowe" />
+                              <CheckBox fx:id="cbLawka" text="Ławeczka" />
+                              <CheckBox fx:id="cbBrak" text="Brak (tylko masa ciała)" />
+                           </children>
+                        </FlowPane>
+                     </content>
+                  </TitledPane>
+
+                  <TitledPane text="3. Kontuzje i Ograniczenia">
+                     <content>
+                        <VBox spacing="10.0">
+                           <children>
+                              <Label text="Zaznacz miejsca, w których odczuwasz ból:" />
+                              <CheckBox fx:id="cbBólBarki" text="Barki" />
+                              <CheckBox fx:id="cbBólPlecy" text="Dolny odcinek pleców" />
+                              <CheckBox fx:id="cbBólKolana" text="Kolana" />
+                              <CheckBox fx:id="cbBólNadgarstki" text="Nadgarstki" />
+                           </children>
+                        </VBox>
+                     </content>
+                  </TitledPane>
+
+                  <TitledPane text="4. Regeneracja i Aktywność">
+                     <content>
+                        <VBox spacing="15.0">
+                           <children>
+                              <Label text="Poziom snu/energii (1-10):" />
+                              <Slider fx:id="sliderRegeneracja" majorTickUnit="1.0" max="10.0" min="1.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="7.0" />
+                              <Separator />
+                              <Label text="Średnia liczba kroków:" />
+                              <CheckBox fx:id="cbKrokiNiskie" text="Mało (poniżej 5k)" />
+                              <CheckBox fx:id="cbKrokiSrednie" text="Optymalnie (5k-10k)" />
+                              <CheckBox fx:id="cbKrokiWysokie" text="Dużo (powyżej 10k)" />
+                           </children>
+                        </VBox>
+                     </content>
+                  </TitledPane>
+
+                  <TitledPane text="5. Dostępność">
+                     <content>
+                        <VBox spacing="10.0">
+                           <children>
+                              <Label style="-fx-font-weight: bold;" text="Ile dni w tygodniu planujesz trenować?" />
+                              <Spinner fx:id="spinnerDni" initialValue="3" max="7" min="1" prefWidth="100.0" />
+                              <Label style="-fx-text-fill: gray; -fx-font-size: 11;" text="*Na podstawie Twojego stażu i dni treningowych system sam dobierze optymalny system (FBW/Split/Góra-Dół)." wrapText="true" />
+                           </children>
+                        </VBox>
+                     </content>
+                  </TitledPane>
+
+               </panes>
+            </Accordion>
+
+            <Button maxWidth="1.7976931348623157E308" onAction="#handleGeneratePlan" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 15;" text="GENERUJ PLAN TRENINGOWY" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
