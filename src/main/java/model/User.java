@@ -1,50 +1,31 @@
 package model;
 
-// basic user class right now it's using only for login to database and basic main user panel.
 public class User {
-    String name;
-    String password;
-    String nickname;
-    String surname;
+    private int id;
+    private String name;
+    private String surname;
+    private String nick;
+    private String password;
 
-    // basic constructor of user
-    public User(String name, String password, String nickname, String surname) {
+    public User(int id, String name, String surname, String nick, String password) {
+        this.id = id;
         this.name = name;
-        this.password = password;
-        this.nickname = nickname;
         this.surname = surname;
-    }
-
-    // only getters and setters method
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
+        this.nick = nick;
         this.password = password;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
+    // Gettery - niezbędne dla kontrolerów Login i UserPanel
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public String getSurname() { return surname; }
+    public String getNick() { return nick; }
+    public String getPassword() { return password; }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
+    // Settery - przydatne przy edycji profilu
+    public void setId(int id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setSurname(String surname) { this.surname = surname; }
+    public void setNick(String nick) { this.nick = nick; }
+    public void setPassword(String password) { this.password = password; }
 }

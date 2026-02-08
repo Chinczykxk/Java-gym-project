@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.User;
+import model.UserPanelController;
 
 import java.io.IOException;
 
@@ -23,7 +25,7 @@ public class LoginController {
     public Label logmessage;
 
     //there we don't create new database but we initialize this class because we will work on elements from this class
-    private ConfigUserDatabase db = new ConfigUserDatabase();
+    public ConfigUserDatabase db = new ConfigUserDatabase();
 
     //function on button click what will happen when we click login
     @FXML

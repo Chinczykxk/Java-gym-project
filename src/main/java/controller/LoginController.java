@@ -2,81 +2,62 @@ package controller;
 
 import com.example.menu1.ConfigUserDatabase;
 import model.User;
+import util.UserSession;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-
 public class LoginController {
 
     @FXML public TextField nickLogin;
-    @FXML public PasswordField passwordLogin;
+    @FXML public TextField passwordLogin;
     @FXML public Label logmessage;
 
-    private ConfigUserDatabase db = new ConfigUserDatabase();
+    // Pole db może być final, bo inicjalizujemy je raz
+    private final ConfigUserDatabase db = new ConfigUserDatabase();
 
     @FXML
-    public void handleLogin(ActionEvent event) {
-        String nick = nickLogin.getText();
+    public void handleLogin(ActionEvent event) throws IOException {
+        // Pobieramy tekst i usuwamy zbędne spacje (trim)
+        String login = nickLogin.getText().trim();
         String pass = passwordLogin.getText();
 
-        try {
-            User user = db.loginUser(nick, pass);
+        if (login.isEmpty() || pass.isEmpty()) {
+            logmessage.setText("Wypełnij wszystkie pola!");
+            return;
+        }
 
-            if (user != null) {
-                System.out.println("Zalogowano pomyślnie: " + user.getNickname());
+        User user = db.loginUser(login, pass);
 
-                // KLUCZOWA ZMIANA: Ścieżka musi zaczynać się od "/" i iść przez foldery w resources
-                // Upewnij się, czy plik nazywa się 'user-panel.fxml' czy 'view-user-panel.fxml'!
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/menu1/view-user-panel.fxml"));
+        if (user != null) {
+            // Inicjalizujemy sesję - używamy getNick(), które dodaliśmy do modelu User
+            UserSession.init(user.getId(), user.getNick());
 
-                // Sprawdzenie zapobiegawcze, czy loader w ogóle widzi plik
-                if (loader.getLocation() == null) {
-                    throw new IOException("Nie znaleziono pliku FXML! Sprawdź nazwę w resources.");
-                }
+            // Pamiętaj, że ścieżka musi być poprawna względem folderu resources
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/menu1/view-user-panel.fxml"));
+            Parent root = loader.load();
 
-                Parent root = loader.load();
+            // Przekazujemy dane usera do kontrolera panelu
+            UserPanelController controller = loader.getController();
+            controller.setInfo(user);
 
-                // Przekazanie danych do panelu
-                UserPanelController controller = loader.getController();
-                if (controller != null) {
-                    controller.setInfo(user);
-                }
-
-                // PODMIANA OKNA: Pobieramy aktualny Stage i ustawiamy nową scenę
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Panel Użytkownika - " + user.getNickname());
-                stage.show();
-
-            } else {
-                logmessage.setText("Błędne dane logowania!");
-            }
-        } catch (IOException e) {
-            System.err.println("Błąd ładowania pliku FXML: " + e.getMessage());
-            logmessage.setText("Błąd systemu: brak widoku panelu.");
-            e.printStackTrace();
+            // Zmiana sceny
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.getScene().setRoot(root);
+        } else {
+            logmessage.setText("Błędne dane logowania!");
         }
     }
 
     @FXML
-    public void backToMenu(ActionEvent event) {
-        try {
-            // Tutaj to samo - pełna ścieżka od resources
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/menu1/view-hello.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void backToMenu(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/com/example/menu1/view-hello.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.getScene().setRoot(root);
     }
 }

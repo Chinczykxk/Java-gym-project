@@ -1,35 +1,78 @@
 package dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import controller.SavedPlansController.SavedPlanRow;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlanyDao {
-    // Ścieżka do bazy - sprawdź czy folder i nazwa pliku są identyczne jak u Ciebie!
     private static final String URL = "jdbc:sqlite:src/main/resources/db/user_data.db";
 
-    /**
-     * Zapisuje tag wybranego planu dla konkretnego użytkownika.
-     */
-    public static void saveUserPlan(int userId, String planTag) {
-        // Zakładam, że w Twoim pliku scheam.sql masz tabelę user_plans lub kolumnę w users
-        String sql = "UPDATE users SET current_plan_tag = ? WHERE id = ?";
+    // Upewniamy się, że sterownik jest załadowany przed próbą połączenia
+    static {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            System.err.println("PlanyDao: Nie znaleziono sterownika JDBC!");
+        }
+    }
 
-        try (Connection conn = DriverManager.getConnection(URL);
+    private Connection connect() throws SQLException {
+        return DriverManager.getConnection(URL);
+    }
+
+    public void zapiszPlan(int userId, String planTitle, String planContent) {
+        String sql = "INSERT INTO user_plans(user_id, plan_title, plan_content) VALUES(?,?,?)";
+        try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, planTag);
-            pstmt.setInt(2, userId);
-
-            int rowsAffected = pstmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Plan '" + planTag + "' został zapisany dla użytkownika ID: " + userId);
-            }
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, planTitle);
+            pstmt.setString(3, planContent);
+            pstmt.executeUpdate();
+            System.out.println("DEBUG: Plan zapisany pomyślnie dla użytkownika " + userId);
 
         } catch (SQLException e) {
-            System.err.println("Błąd podczas zapisywania planu w PlanyDao: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("PlanyDao błąd zapisu: " + e.getMessage());
+        }
+    }
+
+    public List<SavedPlanRow> pobierzPlanyUzytkownika(int userId) {
+        List<SavedPlanRow> plans = new ArrayList<>();
+        String sql = "SELECT id, plan_title, plan_content FROM user_plans WHERE user_id = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                plans.add(new SavedPlanRow(
+                        rs.getInt("id"),
+                        rs.getString("plan_title"),
+                        rs.getString("plan_content")
+                ));
+            }
+        } catch (SQLException e) {
+            System.err.println("PlanyDao błąd pobierania: " + e.getMessage());
+        }
+        return plans;
+    }
+
+    public void usunPlan(int planId) {
+        String sql = "DELETE FROM user_plans WHERE id = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, planId);
+            int rows = pstmt.executeUpdate();
+
+            if (rows > 0) {
+                System.out.println("DEBUG: Plan o ID " + planId + " usunięty z bazy.");
+            }
+        } catch (SQLException e) {
+            System.err.println("PlanyDao błąd usuwania: " + e.getMessage());
         }
     }
 }

@@ -24,3 +24,5 @@ CREATE TABLE IF NOT EXISTS exercise_muscle (
     FOREIGN KEY (exercise_id) REFERENCES exercise(id) ON DELETE CASCADE,
     FOREIGN KEY (muscle_id) REFERENCES muscle(id) ON DELETE CASCADE
     );
+
+

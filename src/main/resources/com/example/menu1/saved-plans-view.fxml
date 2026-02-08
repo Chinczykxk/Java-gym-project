@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15.0" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SavedPlansController">
+    <children>
+        <Label text="Twoje Zapisane Plany Treningowe" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+        <TableView fx:id="tvSavedPlans" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId" prefWidth="50.0" text="ID" />
+                <TableColumn fx:id="colTitle" prefWidth="150.0" text="Nazwa Planu" />
+                <TableColumn fx:id="colContent" prefWidth="450.0" text="Szczegóły Ćwiczeń" />
+            </columns>
+        </TableView>
+
+        <HBox spacing="10.0" alignment="CENTER_RIGHT">
+            <children>
+                <Button text="Usuń wybrany" onAction="#handleDeletePlan" style="-fx-background-color: #ff4444; -fx-text-fill: white;" />
+                <Button text="Cofnij" onAction="#handleBack" prefWidth="100.0" />
+            </children>
+        </HBox>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>

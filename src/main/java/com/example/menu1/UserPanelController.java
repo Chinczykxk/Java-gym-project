@@ -1,4 +1,4 @@
-package com.example.menu1;
+package model;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +17,7 @@ public class UserPanelController {
 
     // method to show the basic data after login to the account
     public void setInfo(User user) {
-        welcomeLabel.setText("Witaj, " + user.getNickname() + "!");
+        welcomeLabel.setText("Witaj, " + user.getNick() + "!");
         dataLabel.setText("Imię i nazwisko: " + user.getName() + " " + user.getSurname());
     }
 

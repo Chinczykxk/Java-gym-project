@@ -5,98 +5,72 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.chart.AreaChart;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import model.User;
-
 import java.io.IOException;
-
+import com.example.menu1.ConfigUserDatabase;
 public class UserPanelController {
-
     @FXML private Label welcomeLabel;
     @FXML private Label dataLabel;
-    @FXML private Label finishWorkoutNumber; // Licznik streaka
-    @FXML private AreaChart<?, ?> progressChart;
-
-    private User currentUser;
-
-    @FXML
-    public void initialize() {
-        // Poprawka rozmiaru, żeby przy 100+ nie robiło się "..."
-        if (finishWorkoutNumber != null) {
-            finishWorkoutNumber.setMinWidth(Region.USE_PREF_SIZE);
-            finishWorkoutNumber.setMaxWidth(Double.MAX_VALUE);
-        }
-    }
+    @FXML private Label finishWorkoutNumber;
 
     public void setInfo(User user) {
-        this.currentUser = user;
-        if (dataLabel != null) {
-            dataLabel.setText(user.getNickname());
+        if (user != null) {
+            welcomeLabel.setText("Witaj " + user.getName() + "!");
+            // Zmień getNickname() na getNick()
+            dataLabel.setText(user.getNick() + " (" + user.getSurname() + ")");
         }
     }
 
-    @FXML
-    public void handleDoneTraining(ActionEvent event) {
-        try {
-            String currentText = finishWorkoutNumber.getText().trim();
-            // Obsługa przypadku, gdyby w labelu było coś innego niż cyfry
-            int currentStreak = currentText.matches("\\d+") ? Integer.parseInt(currentText) : 0;
+    // Metoda pomocnicza, żeby nie powtarzać kodu ładowania okien
+    private void changeScene(ActionEvent event, String fxmlFile) {
+        String path = "/com/example/menu1/" + fxmlFile;
+        var resource = getClass().getResource(path);
 
-            int newStreak = currentStreak + 1;
-            finishWorkoutNumber.setText(String.valueOf(newStreak));
-
-            // Wizualny bajer po wbiciu setki
-            if (newStreak >= 100) {
-                finishWorkoutNumber.setStyle("-fx-text-fill: #ff4500; -fx-font-weight: bold;");
-            }
-
-            System.out.println("Streak zaktualizowany: " + newStreak);
-        } catch (Exception e) {
-            System.err.println("Błąd podczas aktualizacji streaka: " + e.getMessage());
-            finishWorkoutNumber.setText("1");
+        if (resource == null) {
+            System.err.println("BŁĄD: Nie znaleziono pliku: " + path);
+            System.err.println("Upewnij się, że plik leży w: src/main/resources/com/example/menu1/");
+            return; // Zatrzymujemy, żeby nie wywaliło IllegalStateException
         }
-    }
 
-    @FXML
-    public void handleCreatePlan(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/menu1/view-surey.fxml"));
+            FXMLLoader loader = new FXMLLoader(resource);
             Parent root = loader.load();
-            Stage surveyStage = new Stage();
-            surveyStage.setTitle("Nowa Ankieta Treningowa");
-            surveyStage.setScene(new Scene(root));
-            surveyStage.show();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.getScene().setRoot(root);
         } catch (IOException e) {
-            System.err.println("Błąd: Nie można otworzyć okna ankiety!");
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    public void handleSavedPlans(ActionEvent event) {
-        switchScene(event, "/com/example/menu1/saved-plans-view.fxml", "Twoje Zapisane Plany");
     }
 
     @FXML
     public void backToMenu(ActionEvent event) {
-        switchScene(event, "/com/example/menu1/view-hello.fxml", "Menu Główne");
+        System.out.println("Wylogowywanie...");
+        changeScene(event, "view-hello.fxml");
     }
 
-    private void switchScene(ActionEvent event, String fxmlPath, String title) {
+    @FXML
+    public void handleCreatePlan(ActionEvent event) {
+        System.out.println("Otwieram ankietę...");
+        // Zakładam, że Twoja ankieta nazywa się view-ankieta.fxml (popraw nazwę jeśli jest inna!)
+        changeScene(event, "view-surey.fxml");
+    }
+
+    @FXML
+    public void handleSavedPlans(ActionEvent event) {
+        System.out.println("Otwieram zapisane plany...");
+        changeScene(event, "saved-plans-view.fxml"); // Musi być identyczna jak nazwa pliku!
+    }
+
+    @FXML
+    public void handleDoneTraining() {
+        System.out.println("Zaliczono trening!");
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle(title);
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Błąd podczas ładowania: " + fxmlPath);
-            e.printStackTrace();
+            int currentStreak = Integer.parseInt(finishWorkoutNumber.getText());
+            finishWorkoutNumber.setText(String.valueOf(currentStreak + 1));
+        } catch (NumberFormatException e) {
+            finishWorkoutNumber.setText("1");
         }
     }
 }
