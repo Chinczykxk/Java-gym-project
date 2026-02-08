@@ -16,15 +16,23 @@
                      <content>
                         <VBox spacing="10.0">
                            <children>
-                              <Label style="-fx-font-weight: bold;" text="Cel (możesz wybrać kilka):" />
-                              <CheckBox fx:id="cbGoalMass" text="Budowa masy mięśniowej" />
-                              <CheckBox fx:id="cbGoalReduction" text="Redukcja tkanki tłuszczowej" />
-                              <CheckBox fx:id="cbGoalStrength" text="Budowa siły" />
+                              <Label style="-fx-font-weight: bold;" text="Cel treningowy:" />
+                              <RadioButton fx:id="rbGoalMass" selected="true" text="Budowa masy mięśniowej">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="goalGroup" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="rbGoalReduction" text="Redukcja tkanki tłuszczowej" toggleGroup="$goalGroup" />
+                              <RadioButton fx:id="rbGoalStrength" text="Budowa siły" toggleGroup="$goalGroup" />
                               <Separator />
-                              <Label style="-fx-font-weight: bold;" text="Staż (wybierz najbardziej pasujący):" />
-                              <CheckBox fx:id="cbStazPoczatkujacy" text="Początkujący (poniżej 1 roku)" />
-                              <CheckBox fx:id="cbStazSredni" text="Średniozaawansowany (1-3 lata)" />
-                              <CheckBox fx:id="cbStazZaawansowany" text="Zaawansowany (3+ lata)" />
+                              <Label style="-fx-font-weight: bold;" text="Staż treningowy:" />
+                              <RadioButton fx:id="rbStazPoczatkujacy" selected="true" text="Początkujący (poniżej 1 roku)">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="stazGroup" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="rbStazSredni" text="Średniozaawansowany (1-3 lata)" toggleGroup="$stazGroup" />
+                              <RadioButton fx:id="rbStazZaawansowany" text="Zaawansowany (3+ lata)" toggleGroup="$stazGroup" />
                            </children>
                         </VBox>
                      </content>
@@ -32,16 +40,18 @@
 
                   <TitledPane text="2. Dostępny Sprzęt">
                      <content>
-                        <FlowPane hgap="15.0" vgap="10.0">
+                        <VBox spacing="10.0">
                            <children>
-                              <CheckBox fx:id="cbHantle" text="Hantle" />
-                              <CheckBox fx:id="cbSztanga" text="Sztanga" />
-                              <CheckBox fx:id="cbDrazek" text="Drążek" />
-                              <CheckBox fx:id="cbGumy" text="Gumy oporowe" />
-                              <CheckBox fx:id="cbLawka" text="Ławeczka" />
-                              <CheckBox fx:id="cbBrak" text="Brak (tylko masa ciała)" />
+                              <Label style="-fx-font-weight: bold;" text="Wybierz swój poziom wyposażenia:" />
+                              <RadioButton fx:id="rbBrak" text="Brak sprzętu (Masa własna ciała / Dom)">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="equipmentGroup" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="rbHantle" text="Podstawowy (Hantle, gumy, drążek)" toggleGroup="$equipmentGroup" />
+                              <RadioButton fx:id="rbSiłownia" selected="true" text="Pełna siłownia (Sztangi, maszyny, suwnice)" toggleGroup="$equipmentGroup" />
                            </children>
-                        </FlowPane>
+                        </VBox>
                      </content>
                   </TitledPane>
 
@@ -49,7 +59,7 @@
                      <content>
                         <VBox spacing="10.0">
                            <children>
-                              <Label text="Zaznacz miejsca, w których odczuwasz ból:" />
+                              <Label text="Zaznacz miejsca, w których odczuwasz ból (zostaną dobrane bezpieczne ćwiczenia):" />
                               <CheckBox fx:id="cbBólBarki" text="Barki" />
                               <CheckBox fx:id="cbBólPlecy" text="Dolny odcinek pleców" />
                               <CheckBox fx:id="cbBólKolana" text="Kolana" />
@@ -63,13 +73,17 @@
                      <content>
                         <VBox spacing="15.0">
                            <children>
-                              <Label text="Poziom snu/energii (1-10):" />
+                              <Label text="Poziom wypoczęcia (1-10):" />
                               <Slider fx:id="sliderRegeneracja" majorTickUnit="1.0" max="10.0" min="1.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="7.0" />
                               <Separator />
-                              <Label text="Średnia liczba kroków:" />
-                              <CheckBox fx:id="cbKrokiNiskie" text="Mało (poniżej 5k)" />
-                              <CheckBox fx:id="cbKrokiSrednie" text="Optymalnie (5k-10k)" />
-                              <CheckBox fx:id="cbKrokiWysokie" text="Dużo (powyżej 10k)" />
+                              <Label text="Aktywność w ciągu dnia (kroki):" />
+                              <RadioButton fx:id="rbKrokiNiskie" selected="true" text="Siedzący tryb życia (poniżej 5k)">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="krokiGroup" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="rbKrokiSrednie" text="Aktywny tryb życia (5k-10k)" toggleGroup="$krokiGroup" />
+                              <RadioButton fx:id="rbKrokiWysokie" text="Bardzo aktywny (powyżej 10k)" toggleGroup="$krokiGroup" />
                            </children>
                         </VBox>
                      </content>

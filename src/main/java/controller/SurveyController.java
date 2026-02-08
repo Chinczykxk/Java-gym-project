@@ -11,72 +11,57 @@ import java.io.IOException;
 
 public class SurveyController {
 
-    @FXML private CheckBox cbGoalMass, cbGoalReduction, cbGoalStrength;
-    @FXML private CheckBox cbStazPoczatkujacy, cbStazSredni, cbStazZaawansowany;
+    @FXML private RadioButton rbGoalMass, rbGoalReduction, rbGoalStrength;
+    @FXML private RadioButton rbStazPoczatkujacy, rbStazSredni, rbStazZaawansowany;
+    @FXML private RadioButton rbBrak, rbHantle, rbSiłownia;
     @FXML private CheckBox cbBólBarki, cbBólPlecy, cbBólKolana, cbBólNadgarstki;
-
-    // DODAJ TE POLA W FXML (lub upewnij się, że ich nazwy się zgadzają)
-    @FXML private RadioButton rbDom, rbHantle, rbSiłownia;
-
     @FXML private Slider sliderRegeneracja;
     @FXML private Spinner<Integer> spinnerDni;
 
     @FXML
     public void handleGeneratePlan(ActionEvent event) {
         try {
-            // 1. Liczba dni
             int dni = (spinnerDni.getValueFactory() != null) ? spinnerDni.getValue() : 3;
 
-            // 2. Wybór systemu
+            // POPRAWIONA LOGIKA SYSTEMU:
             String system;
-            if (cbStazPoczatkujacy != null && cbStazPoczatkujacy.isSelected() || dni <= 2) {
-                system = "FBW";
+            if (dni <= 3) {
+                system = "FBW"; // 1-3 dni
             } else if (dni == 4) {
-                system = "UPPER/LOWER";
+                system = "UPPER/LOWER"; // 4 dni
             } else {
-                system = "SPLIT";
+                system = "PPL"; // 5+ dni (Push/Pull/Legs)
             }
 
-            // 3. Określenie celu
+            // Nadpisanie stażem: Początkujący zawsze FBW (bezpieczeństwo)
+            if (rbStazPoczatkujacy.isSelected()) {
+                system = "FBW";
+            }
+
             String goal = "MASA";
-            if (cbGoalStrength != null && cbGoalStrength.isSelected()) goal = "SIŁA";
-            else if (cbGoalReduction != null && cbGoalReduction.isSelected()) goal = "REDUKCJA";
+            if (rbGoalStrength.isSelected()) goal = "SIŁA";
+            else if (rbGoalReduction.isSelected()) goal = "REDUKCJA";
 
-            // 4. LOGIKA SPRZĘTU (Kluczowe dla filtra!)
-            int equipmentLevel = 1; // Domyślnie dom (masa ciała)
-            if (rbHantle != null && rbHantle.isSelected()) equipmentLevel = 2;
-            else if (rbSiłownia != null && rbSiłownia.isSelected()) equipmentLevel = 3;
+            int equipmentLevel = 1;
+            if (rbHantle.isSelected()) equipmentLevel = 2;
+            else if (rbSiłownia.isSelected()) equipmentLevel = 3;
 
-            // 5. Ładowanie widoku wynikowego
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/menu1/result-view.fxml"));
             Parent root = loader.load();
 
             ResultController resultController = loader.getController();
-
-            // FIX: Przekazujemy teraz 8 parametrów zgodnie z nowym ResultControllerem
             resultController.initData(
-                    dni,                // Parametr 1 (int)
-                    system,             // Parametr 2 (String)
-                    cbBólKolana != null && cbBólKolana.isSelected(), // 3 (boolean)
-                    cbBólPlecy != null && cbBólPlecy.isSelected(),   // 4 (boolean)
-                    cbBólBarki != null && cbBólBarki.isSelected(),   // 5 (boolean)
-                    goal,               // 6 (String)
-                    (int) sliderRegeneracja.getValue(), // 7 (int)
-                    equipmentLevel      // Parametr 8 (int) - POZIOM SPRZĘTU
+                    dni, system,
+                    cbBólKolana.isSelected(), cbBólPlecy.isSelected(), cbBólBarki.isSelected(),
+                    goal, (int) sliderRegeneracja.getValue(), equipmentLevel
             );
 
-            resultController.setRewardPoints(100);
-
-            // 6. Zmiana sceny
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.getScene().setRoot(root);
             stage.show();
 
-        } catch (IOException e) {
-            showError("Błąd widoku", "Nie znaleziono pliku FXML: " + e.getMessage());
-            e.printStackTrace();
         } catch (Exception e) {
-            showError("Błąd", "Wystąpił problem: " + e.getMessage());
+            showError("Błąd", "Wystąpił błąd podczas generowania: " + e.getMessage());
             e.printStackTrace();
         }
     }

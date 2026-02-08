@@ -1,13 +1,13 @@
 package controller;
 
 import dao.PlanyDao;
-import dao.ConfigUserDatabase;
+import dao.ExerciseDao;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Exercise;
-import dao.ExerciseDao;
 import util.UserSession;
 import java.util.List;
 
@@ -22,7 +22,6 @@ public class ResultController {
     @FXML private TableColumn<Exercise, String> colReps;
     @FXML private TableColumn<Exercise, String> colProgression;
 
-    // Pole przechowujące pełny plan tygodniowy (wszystkie dni)
     private List<List<Exercise>> weeklySchedule;
 
     @FXML
@@ -31,62 +30,80 @@ public class ResultController {
         colIntensity.setCellValueFactory(new PropertyValueFactory<>("intensity"));
         colDifficulty.setCellValueFactory(new PropertyValueFactory<>("difficulty"));
 
+        // Upewnij się, że te kolumny istnieją w Twoim pliku FXML
         if (colSets != null) colSets.setCellValueFactory(new PropertyValueFactory<>("sets"));
         if (colReps != null) colReps.setCellValueFactory(new PropertyValueFactory<>("reps"));
         if (colProgression != null) colProgression.setCellValueFactory(new PropertyValueFactory<>("progression"));
 
-        tvExercises.setPlaceholder(new Label("Trwa dobieranie najlepszych ćwiczeń..."));
+        tvExercises.setPlaceholder(new Label("Generowanie planu..."));
     }
 
-    /**
-     * Zaktualizowana metoda initData - musi przyjąć dni i sprzęt
-     */
     public void initData(int daysCount, String system, boolean knee, boolean back, boolean shoulder, String goal, int sleep, int equipmentLevel) {
         if (lblPlanName != null) {
             lblPlanName.setText("Twój plan: " + system + " (" + daysCount + " dni) | Cel: " + goal);
         }
 
         ExerciseDao dao = new ExerciseDao();
-
-        // Wywołanie nowej metody, którą zaimplementowaliśmy w ExerciseDao
+        // Pobieramy całe jednostki treningowe wygenerowane przez algorytm
         this.weeklySchedule = dao.generateMultiDayPlan(daysCount, system, knee, back, shoulder, goal, sleep, equipmentLevel);
 
-        if (weeklySchedule == null || weeklySchedule.isEmpty() || weeklySchedule.get(0).isEmpty()) {
-            tvExercises.setPlaceholder(new Label("Błąd: Brak ćwiczeń dla wybranych parametrów."));
+        if (weeklySchedule == null || weeklySchedule.isEmpty()) {
+            tvExercises.setPlaceholder(new Label("Błąd: Brak ćwiczeń spełniających kryteria."));
         } else {
-            // Domyślnie pokazujemy pierwszy dzień w tabeli
-            tvExercises.setItems(FXCollections.observableArrayList(weeklySchedule.get(0)));
+            ObservableList<Exercise> displayList = FXCollections.observableArrayList();
+
+            // Przechodzimy przez każdy DZIEŃ (lista list)
+            for (int i = 0; i < weeklySchedule.size(); i++) {
+                List<Exercise> dayExercises = weeklySchedule.get(i);
+                int dayNum = i + 1;
+
+                // Przechodzimy przez KAŻDE ćwiczenie w danym dniu
+                for (Exercise originalEx : dayExercises) {
+                    // Tworzymy kopię do wyświetlenia, aby uniknąć błędów kompilacji z konstruktorem
+                    Exercise visualEx = new Exercise();
+
+                    // Formatujemy nazwę, aby w tabeli było jasne, do którego dnia należy ćwiczenie
+                    visualEx.setName("Dzień " + dayNum + ": " + originalEx.getName());
+
+                    visualEx.setIntensity(originalEx.getIntensity());
+                    visualEx.setDifficulty(originalEx.getDifficulty());
+
+                    // Przepisujemy parametry serii/powtórzeń/progresji
+                    visualEx.setSets(originalEx.getSets());
+                    visualEx.setReps(originalEx.getReps());
+                    visualEx.setProgression(originalEx.getProgression());
+
+                    displayList.add(visualEx);
+                }
+            }
+            // Teraz tabela pokaże pełną listę wszystkich ćwiczeń ze wszystkich dni
+            tvExercises.setItems(displayList);
         }
     }
 
     @FXML
     private void handleSaveAction() {
         if (weeklySchedule == null || weeklySchedule.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Błąd", "Nie ma żadnego planu do zapisania!");
+            showAlert(Alert.AlertType.WARNING, "Błąd", "Nie ma czego zapisać!");
             return;
         }
 
-        ConfigUserDatabase configDb = new ConfigUserDatabase();
-        configDb.setUpDatabase();
-        int userId = UserSession.getUserId();
-
-        // Budujemy tekstowy opis całego tygodnia (Dzień 1, Dzień 2 itd.)
         StringBuilder dataBuilder = new StringBuilder();
         for (int i = 0; i < weeklySchedule.size(); i++) {
             dataBuilder.append("--- DZIEŃ ").append(i + 1).append(" ---\n");
             for (Exercise ex : weeklySchedule.get(i)) {
+                // Przy zapisie używamy oryginalnych danych bez prefiksu "Dzień X"
                 dataBuilder.append(ex.getName())
-                        .append(" (").append(ex.getSets()).append("x").append(ex.getReps())
-                        .append(" - ").append(ex.getProgression()).append(")\n");
+                        .append(" | ").append(ex.getSets()).append("x").append(ex.getReps())
+                        .append(" | ").append(ex.getProgression()).append("\n");
             }
             dataBuilder.append("\n");
         }
 
         PlanyDao planyDao = new PlanyDao();
-        String planTitle = (lblPlanName != null) ? lblPlanName.getText() : "Mój Plan Treningowy";
+        planyDao.zapiszPlan(UserSession.getUserId(), lblPlanName.getText(), dataBuilder.toString());
 
-        planyDao.zapiszPlan(userId, planTitle, dataBuilder.toString());
-        showAlert(Alert.AlertType.INFORMATION, "Sukces", "Zapisano cały plan (" + weeklySchedule.size() + " dni)!");
+        showAlert(Alert.AlertType.INFORMATION, "Sukces", "Pełny plan treningowy został zapisany!");
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {
@@ -97,14 +114,9 @@ public class ResultController {
         alert.showAndWait();
     }
 
-    @FXML
-    private void handleClose() {
-        if (tvExercises.getScene() != null && tvExercises.getScene().getWindow() != null) {
+    @FXML private void handleClose() {
+        if (tvExercises.getScene() != null) {
             tvExercises.getScene().getWindow().hide();
         }
-    }
-
-    public void setRewardPoints(int points) {
-        System.out.println("DEBUG: Nagroda: +" + points + " XP.");
     }
 }
