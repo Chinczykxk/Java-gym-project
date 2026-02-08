@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="450.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProgressMonitorController">
+    <children>
+        <Label layoutX="20.0" layoutY="20.0" text="Weight Monitoring">
+            <font><Font name="System Bold" size="24.0" /></font>
+        </Label>
+
+        <LineChart fx:id="weightChart" layoutX="14.0" layoutY="60.0" prefHeight="280.0" prefWidth="620.0" title="Weight Over Time">
+            <xAxis><CategoryAxis label="Date" side="BOTTOM" /></xAxis>
+            <yAxis><NumberAxis label="Weight (kg)" side="LEFT" /></yAxis>
+        </LineChart>
+
+        <HBox layoutX="30.0" layoutY="350.0" spacing="10.0" alignment="CENTER">
+            <children>
+                <Label text="Current Weight:">
+                    <font><Font size="16.0" /></font>
+                </Label>
+                <TextField fx:id="weightInput" prefWidth="80.0" promptText="kg" />
+                <Button onAction="#handleAddWeight" text="Add Entry" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+            </children>
+        </HBox>
+
+        <Button layoutX="30.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleBackToPanel" text="Back to Dashboard" />
+    </children>
+</AnchorPane>

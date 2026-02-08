@@ -25,17 +25,17 @@ public class ExerciseDao {
             for (int dayIndex = 0; dayIndex < daysCount; dayIndex++) {
                 List<Exercise> dailyPlan = new ArrayList<>();
 
-                // DYNAMICZNY DOBÓR PARTII ZALEŻNIE OD SYSTEMU I DNIA
+                // Pobieramy zestaw mięśni do przetrenowania w tym dniu
                 int[] muscleIds = getMusclesForDay(system, daysCount, dayIndex);
 
                 for (int muscleId : muscleIds) {
-                    // Szukamy najlepszego ćwiczenia, którego jeszcze NIE MA na blackliście (usedExerciseIds)
-                    Exercise best = fetchBestForMuscle(conn, muscleId, knee, back, shoulder, userEquipmentLevel, usedExerciseIds);
+                    // Pobieramy 1 lub 2 ćwiczenia na daną partię, żeby plan był pełny (6-8 ćwiczeń)
+                    List<Exercise> bestExercises = fetchExercisesForMuscle(conn, muscleId, knee, back, shoulder, userEquipmentLevel, usedExerciseIds, 1);
 
-                    if (best != null) {
-                        applyTrainingLogic(best, goal, sleep);
-                        dailyPlan.add(best);
-                        usedExerciseIds.add(best.getId());
+                    for (Exercise ex : bestExercises) {
+                        applyTrainingLogic(ex, goal, sleep);
+                        dailyPlan.add(ex);
+                        usedExerciseIds.add(ex.getId());
                     }
                 }
                 fullWeeklySchedule.add(dailyPlan);
@@ -49,49 +49,48 @@ public class ExerciseDao {
     private int[] getMusclesForDay(String system, int totalDays, int currentDay) {
         String sys = system.toUpperCase();
 
+        // FBW: Pełna jednostka (Nogi, Plecy, Klatka, Barki, Brzuch, Biceps/Triceps)
         if (sys.contains("FBW")) {
-            return new int[]{1, 6, 14, 13, 20, 18}; // Całe ciało
+            return new int[]{1, 6, 14, 13, 20, 18, 16};
         }
 
+        // UPPER/LOWER: Rozbicie na dół i górę
         if (sys.contains("UPPER") || sys.contains("LOWER")) {
             if (currentDay % 2 == 0) {
-                return new int[]{14, 6, 13, 18}; // Góra
+                return new int[]{14, 6, 7, 13, 16, 18}; // Góra: Klatka, Plecy x2, Barki, Ramiona
             } else {
-                return new int[]{1, 2, 3, 4, 20}; // Dół
+                return new int[]{1, 2, 3, 4, 20}; // Dół: Czwórki, Dwójki, Pośladki, Łydki, Brzuch
             }
         }
 
-        if (sys.contains("SPLIT")) {
-            if (totalDays <= 3) {
-                int dayMod = currentDay % 3;
-                if (dayMod == 0) return new int[]{14, 13, 18}; // Push
-                if (dayMod == 1) return new int[]{6, 7, 9, 20};  // Pull
-                return new int[]{1, 2, 3, 4};                  // Legs
-            } else {
-                int dayMod = currentDay % 4;
-                if (dayMod == 0) return new int[]{14, 20};     // Klatka + Brzuch
-                if (dayMod == 1) return new int[]{6, 7};       // Plecy
-                if (dayMod == 2) return new int[]{13, 18};     // Barki + Triceps
-                return new int[]{1, 2, 3, 4};                  // Nogi
-            }
+        // PPL lub SPLIT: Precyzyjne jednostki
+        if (sys.contains("PPL") || sys.contains("SPLIT")) {
+            int dayMod = (totalDays <= 3) ? currentDay % 3 : currentDay % 4;
+
+            if (dayMod == 0) return new int[]{14, 15, 13, 18};     // PUSH: Klatka x2, Barki, Triceps
+            if (dayMod == 1) return new int[]{6, 7, 9, 16, 20};    // PULL: Plecy x3, Biceps, Brzuch
+            if (dayMod == 2) return new int[]{1, 2, 3, 4};         // LEGS: Nogi komplet
+            return new int[]{14, 6, 13, 20};                       // Extra/Mix
         }
-        return new int[]{5};
+
+        return new int[]{1, 6, 14}; // Default
     }
 
-    private Exercise fetchBestForMuscle(Connection conn, int muscleId, boolean knee, boolean back,
-                                        boolean shoulder, int userEquip, List<Integer> excludeIds) throws SQLException {
+    private List<Exercise> fetchExercisesForMuscle(Connection conn, int muscleId, boolean knee, boolean back,
+                                                   boolean shoulder, int userEquip, List<Integer> excludeIds, int limit) throws SQLException {
 
+        List<Exercise> found = new ArrayList<>();
         String excludeStr = excludeIds.stream().map(String::valueOf).collect(Collectors.joining(","));
         String notInClause = excludeIds.isEmpty() ? "" : " AND e.id NOT IN (" + excludeStr + ") ";
 
-        // Kluczowe: sprawdzamy sprzęt (<=) i odrzucamy użyte wcześniej ćwiczenia
+        // Logika punktacji: preferujemy wysoką intensywność, ale karzemy za ryzyko kontuzji jeśli użytkownik ją zgłosił
         String sql = "SELECT e.*, (e.intensity - (e.injury_risk * ?)) as dynamic_score " +
                 "FROM exercise e " +
                 "JOIN exercise_muscle em ON e.id = em.exercise_id " +
                 "WHERE em.muscle_id = ? " +
                 "AND e.equipment_level <= ? " +
                 notInClause +
-                "ORDER BY dynamic_score DESC, e.equipment_level DESC LIMIT 1";
+                "ORDER BY dynamic_score DESC LIMIT " + limit;
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             int penalty = calculatePenalty(muscleId, knee, back, shoulder);
@@ -100,22 +99,24 @@ public class ExerciseDao {
             pstmt.setInt(3, userEquip);
 
             ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return new Exercise(
+            while (rs.next()) {
+                Exercise ex = new Exercise(
                         rs.getInt("id"), rs.getString("name"),
                         rs.getInt("intensity"), rs.getInt("injury_risk"),
                         rs.getInt("difficulty"), rs.getInt("equipment_level")
                 );
+                found.add(ex);
             }
         }
-        return null;
+        return found;
     }
 
     private int calculatePenalty(int muscleId, boolean knee, boolean back, boolean shoulder) {
+        // Jeśli użytkownik ma kontuzję, drastycznie podnosimy karę dla ćwiczeń obciążających te stawy
         int penalty = 0;
-        if (knee && (muscleId == 1 || muscleId == 2 || muscleId == 3)) penalty = 4;
-        if (back && (muscleId >= 6 && muscleId <= 11)) penalty = 5;
-        if (shoulder && (muscleId == 13 || muscleId == 14)) penalty = 3;
+        if (knee && (muscleId >= 1 && muscleId <= 4)) penalty = 10;
+        if (back && (muscleId >= 6 && muscleId <= 11)) penalty = 10;
+        if (shoulder && (muscleId == 13 || muscleId == 14)) penalty = 10;
         return penalty;
     }
 
@@ -126,15 +127,16 @@ public class ExerciseDao {
 
         if (goal != null) {
             switch (goal.toUpperCase()) {
-                case "SIŁA": baseSets = 4; reps = "5-6"; progression = "Rampa"; break;
+                case "SIŁA": baseSets = 4; reps = "5-6"; progression = "Rampa ciężaru"; break;
                 case "MASA": baseSets = 3; reps = "8-12"; progression = "RIR 1"; break;
-                case "REDUKCJA": baseSets = 3; reps = "12-15"; progression = "RIR 3"; break;
+                case "REDUKCJA": baseSets = 3; reps = "12-15"; progression = "Krótkie przerwy"; break;
             }
         }
 
-        if (sleep < 6) {
-            baseSets = Math.max(2, baseSets - 1);
-            progression = "DELOAD: " + progression;
+        // Jeśli regeneracja jest słaba (mało snu), system obcina objętość (serie)
+        if (sleep < 5) {
+            baseSets = 2;
+            progression = "DELOAD (Regeneracja)";
         }
 
         ex.setSets(String.valueOf(baseSets));
