@@ -1,0 +1,80 @@
+/* Główne tło okna - Ciemny grafit */
+.root {
+    -fx-background-color: #1e272e;
+    -fx-font-family: "Segoe UI Semibold", sans-serif;
+    -fx-min-width: 450px;
+    -fx-min-height: 400px;
+}
+
+/* Styl dla wszystkich przycisków - Neonowy błękit */
+.button {
+    -fx-background-color: #0fbcf9;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-radius: 8;
+}
+
+.button:hover {
+    -fx-background-color: #4bcffa;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 188, 249, 0.4), 10, 0, 0, 0);
+}
+
+/* Przyciski specjalne (Wyloguj/Back) - Koralowy/Czerwony */
+#back, #logoutButton {
+    -fx-background-color: #f53b57;
+}
+
+#back:hover, #logoutButton:hover {
+    -fx-background-color: #ff5e57;
+    -fx-effect: dropshadow(three-pass-box, rgba(245, 59, 87, 0.4), 10, 0, 0, 0);
+}
+
+/* Pola tekstowe - Ciemne z jasnym tekstem */
+.text-field, .password-field {
+    -fx-background-color: #2f3542;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #57606f;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 7;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #0fbcf9;
+    -fx-border-width: 1.5;
+}
+
+/* Napisy (Label) - Jasne srebro */
+.label {
+    -fx-text-fill: #d2dae2;
+    -fx-font-size: 13px;
+}
+
+/* Nagłówki (Witaj!) - Biały */
+#welcomeLabel {
+    -fx-font-size: 22px;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+
+/* Wykres - Neonowy styl */
+.chart {
+    -fx-padding: 10;
+}
+
+.chart-plot-background {
+    -fx-background-color: #2f3542;
+}
+
+.chart-series-area-line {
+    -fx-stroke: #05c46b; /* Neonowa zieleń postępu */
+    -fx-stroke-width: 4px;
+}
+
+.chart-series-area-fill {
+    -fx-fill: rgba(5, 196, 107, 0.15);
+}
