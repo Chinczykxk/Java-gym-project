@@ -3,8 +3,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import java.net.URL?>
 <AnchorPane prefHeight="650.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SurveyController">
-   <children>
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+    <children>
       <VBox spacing="10" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
             <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="KWESTIONARIUSZ TRENERA" />
