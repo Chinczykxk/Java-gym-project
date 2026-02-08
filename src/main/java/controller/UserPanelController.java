@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import model.User;
 import java.io.IOException;
-import dao.ConfigUserDatabase;
+
 public class UserPanelController {
     @FXML private Label welcomeLabel;
     @FXML private Label dataLabel;
@@ -18,20 +18,30 @@ public class UserPanelController {
     public void setInfo(User user) {
         if (user != null) {
             welcomeLabel.setText("Witaj " + user.getName() + "!");
-            // Zmień getNickname() na getNick()
+            // Używamy getNick() zgodnie z Twoim modelem
             dataLabel.setText(user.getNick() + " (" + user.getSurname() + ")");
         }
     }
 
-    // Metoda pomocnicza, żeby nie powtarzać kodu ładowania okien
+    /**
+     * NOWA METODA: To ona naprawia błąd logowania.
+     * FXML szuka tego ID, by otworzyć okno z wykresem wagi.
+     */
+    @FXML
+    private void handleMonitorProgress(ActionEvent event) {
+        System.out.println("Otwieram monitorowanie postępów...");
+        changeScene(event, "progress-monitor.fxml");
+    }
+
+    // Metoda pomocnicza do zmiany scen
     private void changeScene(ActionEvent event, String fxmlFile) {
+        // Poprawiona ścieżka - upewnij się, że pliki FXML są w tym folderze
         String path = "/com/example/menu1/" + fxmlFile;
         var resource = getClass().getResource(path);
 
         if (resource == null) {
             System.err.println("BŁĄD: Nie znaleziono pliku: " + path);
-            System.err.println("Upewnij się, że plik leży w: src/main/resources/com/example/menu1/");
-            return; // Zatrzymujemy, żeby nie wywaliło IllegalStateException
+            return;
         }
 
         try {
@@ -40,6 +50,7 @@ public class UserPanelController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.getScene().setRoot(root);
         } catch (IOException e) {
+            System.err.println("Błąd podczas ładowania sceny: " + fxmlFile);
             e.printStackTrace();
         }
     }
@@ -53,14 +64,14 @@ public class UserPanelController {
     @FXML
     public void handleCreatePlan(ActionEvent event) {
         System.out.println("Otwieram ankietę...");
-        // Zakładam, że Twoja ankieta nazywa się view-ankieta.fxml (popraw nazwę jeśli jest inna!)
+        // Sprawdź czy nazwa to na pewno view-surey.fxml czy view-survey.fxml (częsty czeski błąd!)
         changeScene(event, "view-surey.fxml");
     }
 
     @FXML
     public void handleSavedPlans(ActionEvent event) {
         System.out.println("Otwieram zapisane plany...");
-        changeScene(event, "saved-plans-view.fxml"); // Musi być identyczna jak nazwa pliku!
+        changeScene(event, "saved-plans-view.fxml");
     }
 
     @FXML
