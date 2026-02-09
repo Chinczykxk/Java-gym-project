@@ -19,7 +19,7 @@
         <HBox spacing="10.0" alignment="CENTER_RIGHT">
             <children>
                 <Button text="Usuń wybrany" onAction="#handleDeletePlan" style="-fx-background-color: #ff4444; -fx-text-fill: white;" />
-                <Button text="Cofnij" onAction="#handleBack" prefWidth="100.0" />
+                <Button text="Powrót" onAction="#handleBack" prefWidth="100.0" />
             </children>
         </HBox>
     </children>

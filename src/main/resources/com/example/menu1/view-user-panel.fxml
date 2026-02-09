@@ -4,7 +4,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<?import java.net.URL?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserPanelController">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
     <children>
         <Label fx:id="welcomeLabel" layoutX="13.0" layoutY="14.0" prefHeight="30.0" prefWidth="80.0" text="Witaj!">
             <font><Font name="System Bold" size="18.0" /></font>

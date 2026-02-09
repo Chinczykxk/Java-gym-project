@@ -27,7 +27,7 @@
             <Button text="Zapisz ten plan" onAction="#handleSaveAction"
                     style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 30; -fx-cursor: hand;"/>
 
-            <Button text="Zamknij" onAction="#handleClose"
+            <Button text="Powrót" onAction="#handleClose"
                     style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 30; -fx-cursor: hand;"/>
         </children>
     </HBox>
