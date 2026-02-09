@@ -2,8 +2,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import java.net.URL?>
 <VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="controller.ResultController" prefWidth="900" prefHeight="500">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
 
     <Label fx:id="lblPlanName" text="Twój Plan Treningowy"
            style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
@@ -27,7 +31,7 @@
             <Button text="Zapisz ten plan" onAction="#handleSaveAction"
                     style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 30; -fx-cursor: hand;"/>
 
-            <Button text="Zamknij" onAction="#handleClose"
+            <Button text="Powrót" onAction="#handleClose"
                     style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 30; -fx-cursor: hand;"/>
         </children>
     </HBox>

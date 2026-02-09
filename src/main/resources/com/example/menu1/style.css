@@ -1,0 +1,97 @@
+
+.root {
+    -fx-background-color: #121212;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* NAGŁÓWKI */
+.header-label, .title-label {
+    -fx-font-size: 24px;
+    -fx-text-fill: #FF9F43 !important;
+    -fx-font-weight: bold;
+}
+
+.label {
+    -fx-text-fill: #FFFFFF !important;
+}
+
+/* PRZYCISKI  */
+.button {
+    -fx-background-color: #2D3436;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-border-color: #485460;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #FF9F43;
+    -fx-text-fill: #121212;
+    -fx-border-color: #FF9F43;
+}
+
+/* Specjalny przycisk na dole Survey */
+.button-generate {
+    -fx-background-color: #3D4446;
+    -fx-border-color: #FF9F43;
+    -fx-border-width: 2;
+    -fx-font-size: 16px;
+    -fx-padding: 15;
+}
+
+/* KWESTIONARIUSZ  */
+.accordion {
+    -fx-background-color: transparent;
+}
+
+.titled-pane {
+    -fx-text-fill: #FFFFFF;
+}
+
+/* Tytuł panelu gdy jest zamknięty */
+.titled-pane > .title {
+    -fx-background-color: #1E272E;
+    -fx-border-color: #485460;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 12;
+}
+
+/* Tytuł panelu gdy jest OTWARTY */
+.titled-pane:expanded > .title {
+    -fx-background-color: #FF9F43;
+}
+
+.titled-pane:expanded > .title > .text {
+    -fx-fill: #121212; /* Kolor tekstu nagłówka po otwarciu */
+    -fx-font-weight: bold;
+}
+
+/* Wnętrze rozwiniętego panelu */
+.titled-pane > .content {
+    -fx-background-color: #121212;
+    -fx-border-color: #FF9F43;
+    -fx-border-width: 0 1 1 1;
+}
+
+/*  KONTROLKI  */
+.radio-button .radio, .check-box .box {
+    -fx-background-color: #2D3436;
+    -fx-border-color: #FF9F43;
+    -fx-text-fill: #f1f1f1;
+}
+
+.radio-button:selected .dot, .check-box:selected .mark {
+    -fx-background-color: #FF9F43;
+}
+
+
+.slider .track { -fx-background-color: #2D3436; }
+.slider .thumb { -fx-background-color: #FF9F43; }
+
+.spinner {
+    -fx-background-color: #2D3436;
+    -fx-border-color: #FF9F43;
+}
+.spinner .text-field { -fx-text-fill: white; -fx-background-color: transparent; }

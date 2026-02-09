@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
 
-<AnchorPane prefHeight="400.0" prefWidth="448.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
-   <children>
-      <Button fx:id="back" layoutX="372.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="52.0" prefWidth="76.0" text="Go Back" />
-      <Label layoutX="138.0" layoutY="86.0" prefHeight="17.0" prefWidth="172.0" text="Nick" />
-      <TextField fx:id="nickLogin" layoutX="129.0" layoutY="103.0" prefHeight="25.0" prefWidth="149.0" />
-      <Label layoutX="135.0" layoutY="132.0" prefHeight="17.0" prefWidth="158.0" text="Password" />
-      <PasswordField fx:id="passwordLogin" layoutX="129.0" layoutY="149.0" />
-      <Button fx:id="acceptLogin" layoutX="191.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleLogin" text="Login" />
-      <Label fx:id="logmessage" layoutX="200.0" layoutY="257.0" />
-   </children>
-</AnchorPane>
+<VBox alignment="CENTER" prefHeight="500.0" prefWidth="500.0" spacing="15.0"
+      styleClass="main-container" xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+
+    <padding>
+        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+    </padding>
+    <HBox alignment="TOP_RIGHT" VBox.vgrow="NEVER">
+        <Button fx:id="back" onAction="#backToMenu" text="← Go Back" styleClass="btn-back" />
+    </HBox>
+    <VBox alignment="CENTER" spacing="10.0" maxWidth="300.0" VBox.vgrow="ALWAYS">
+        <Label text="Logowanie" styleClass="header-label" />
+
+        <VBox spacing="5.0" alignment="CENTER_LEFT">
+            <Label text="Nick:" />
+            <TextField fx:id="nickLogin" promptText="Wpisz swój nick" />
+        </VBox>
+        <VBox spacing="5.0" alignment="CENTER_LEFT">
+            <Label text="Password:" />
+            <PasswordField fx:id="passwordLogin" promptText="Wpisz hasło" />
+        </VBox>
+        <Button fx:id="acceptLogin" onAction="#handleLogin" text="Login"
+                maxWidth="Infinity" styleClass="btn-accept" />
+        <Label fx:id="logmessage" styleClass="error-label" />
+    </VBox>
+
+</VBox>

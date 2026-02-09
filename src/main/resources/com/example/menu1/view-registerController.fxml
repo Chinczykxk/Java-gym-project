@@ -1,29 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
 
-<AnchorPane prefHeight="400.0" prefWidth="449.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterController">
-   <children>
-      <Button fx:id="back" layoutX="372.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="52.0" prefWidth="76.0" text="Go Back" />
-
-      <Label layoutX="14.0" layoutY="18.0" text="Name" />
-      <TextField fx:id="nameRegister" layoutX="12.0" layoutY="40.0" />
-
-      <Label layoutX="14.0" layoutY="66.0" text="Surname" />
-      <TextField fx:id="surnameRegister" layoutX="12.0" layoutY="83.0" />
-
-      <Label layoutX="14.0" layoutY="118.0" text="Nick" />
-      <TextField fx:id="nickRegister" layoutX="12.0" layoutY="137.0" />
-
-      <Label layoutX="14.0" layoutY="166.0" text="Password" />
-      <PasswordField fx:id="passRegister" layoutX="12.0" layoutY="188.0" />
-      <CheckBox fx:id="checkBoxv1Register" layoutX="184.0" layoutY="192.0" mnemonicParsing="false" text="Show" />
-
-      <Label layoutX="14.0" layoutY="218.0" text="Again Password" />
-      <PasswordField fx:id="ageinpassRegister" layoutX="12.0" layoutY="241.0" />
-      <CheckBox fx:id="checkBoxv2Register" layoutX="184.0" layoutY="245.0" mnemonicParsing="false" text="Show" />
-
-      <Button fx:id="acceptRegistration" layoutX="108.0" layoutY="280.0" mnemonicParsing="false" onAction="#handleRegister" text="Accept" />
-      <Label fx:id="message" layoutX="195.0" layoutY="353.0" />
-   </children>
-</AnchorPane>
+<VBox alignment="TOP_CENTER" prefHeight="500.0" prefWidth="500.0" spacing="10.0"
+      styleClass="main-container" xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterController">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+    <padding>
+        <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+    </padding>
+    <HBox alignment="TOP_RIGHT">
+        <Button fx:id="back" onAction="#backToMenu" text="← Go Back" styleClass="btn-back" />
+    </HBox>
+    <Label text="Rejestracja" styleClass="header-label" />
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+        <VBox spacing="12.0" alignment="CENTER" maxWidth="350.0" style="-fx-padding: 10 0;">
+            <VBox spacing="5.0">
+                <Label text="Name:" />
+                <TextField fx:id="nameRegister" promptText="Imię" />
+            </VBox>
+            <VBox spacing="5.0">
+                <Label text="Surname:" />
+                <TextField fx:id="surnameRegister" promptText="Nazwisko" />
+            </VBox>
+            <VBox spacing="5.0">
+                <Label text="Nick:" />
+                <TextField fx:id="nickRegister" promptText="Twoja ksywka" />
+            </VBox>
+            <VBox spacing="5.0">
+                <Label text="Password:" />
+                <HBox spacing="10.0" alignment="CENTER_LEFT">
+                    <PasswordField fx:id="passRegister" promptText="Hasło" HBox.hgrow="ALWAYS" />
+                    <CheckBox fx:id="checkBoxv1Register" text="Show" styleClass="small-check" />
+                </HBox>
+            </VBox>
+            <VBox spacing="5.0">
+                <Label text="Repeat Password:" />
+                <HBox spacing="10.0" alignment="CENTER_LEFT">
+                    <PasswordField fx:id="ageinpassRegister" promptText="Powtórz hasło" HBox.hgrow="ALWAYS" />
+                    <CheckBox fx:id="checkBoxv2Register" text="Show" styleClass="small-check" />
+                </HBox>
+            </VBox>
+            <Button fx:id="acceptRegistration" onAction="#handleRegister" text="Create Account"
+                    maxWidth="Infinity" styleClass="btn-accept" />
+            <Label fx:id="message" styleClass="error-label" wrapText="true" textAlignment="CENTER" />
+        </VBox>
+    </ScrollPane>
+</VBox>

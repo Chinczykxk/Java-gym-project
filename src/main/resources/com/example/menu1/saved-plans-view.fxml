@@ -4,7 +4,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox spacing="15.0" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SavedPlansController">
+<?import java.net.URL?>
+<VBox spacing="15.0" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #121212;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SavedPlansController">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+
     <children>
         <Label text="Twoje Zapisane Plany Treningowe" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
 
@@ -19,7 +24,7 @@
         <HBox spacing="10.0" alignment="CENTER_RIGHT">
             <children>
                 <Button text="Usuń wybrany" onAction="#handleDeletePlan" style="-fx-background-color: #ff4444; -fx-text-fill: white;" />
-                <Button text="Cofnij" onAction="#handleBack" prefWidth="100.0" />
+                <Button text="Powrót" onAction="#handleBack" prefWidth="100.0" />
             </children>
         </HBox>
     </children>

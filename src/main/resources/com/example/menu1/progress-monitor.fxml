@@ -4,7 +4,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<?import java.net.URL?>
 <AnchorPane prefHeight="450.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProgressMonitorController">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+
     <children>
         <Label layoutX="20.0" layoutY="20.0" text="Weight Monitoring">
             <font><Font name="System Bold" size="24.0" /></font>
