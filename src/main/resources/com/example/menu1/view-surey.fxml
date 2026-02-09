@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import java.net.URL?>
-<AnchorPane prefHeight="650.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SurveyController">
+<AnchorPane prefHeight="650.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SurveyController">
     <stylesheets>
         <URL value="@style.css" />
     </stylesheets>
@@ -21,22 +21,22 @@
                         <VBox spacing="10.0">
                            <children>
                               <Label style="-fx-font-weight: bold;" text="Cel treningowy:" />
-                              <RadioButton fx:id="rbGoalMass" selected="true" text="Budowa masy mięśniowej">
+                              <RadioButton fx:id="rbGoalMass" selected="true" text="Budowa masy mięśniowej" textFill="WHITE">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="goalGroup" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton fx:id="rbGoalReduction" text="Redukcja tkanki tłuszczowej" toggleGroup="$goalGroup" />
-                              <RadioButton fx:id="rbGoalStrength" text="Budowa siły" toggleGroup="$goalGroup" />
+                              <RadioButton fx:id="rbGoalReduction" text="Redukcja tkanki tłuszczowej" textFill="WHITE" toggleGroup="$goalGroup" />
+                              <RadioButton fx:id="rbGoalStrength" text="Budowa siły" textFill="WHITE" toggleGroup="$goalGroup" />
                               <Separator />
                               <Label style="-fx-font-weight: bold;" text="Staż treningowy:" />
-                              <RadioButton fx:id="rbStazPoczatkujacy" selected="true" text="Początkujący (poniżej 1 roku)">
+                              <RadioButton fx:id="rbStazPoczatkujacy" selected="true" text="Początkujący (poniżej 1 roku)" textFill="WHITE">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="stazGroup" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton fx:id="rbStazSredni" text="Średniozaawansowany (1-3 lata)" toggleGroup="$stazGroup" />
-                              <RadioButton fx:id="rbStazZaawansowany" text="Zaawansowany (3+ lata)" toggleGroup="$stazGroup" />
+                              <RadioButton fx:id="rbStazSredni" text="Średniozaawansowany (1-3 lata)" textFill="WHITE" toggleGroup="$stazGroup" />
+                              <RadioButton fx:id="rbStazZaawansowany" text="Zaawansowany (3+ lata)" textFill="WHITE" toggleGroup="$stazGroup" />
                            </children>
                         </VBox>
                      </content>
@@ -47,13 +47,13 @@
                         <VBox spacing="10.0">
                            <children>
                               <Label style="-fx-font-weight: bold;" text="Wybierz swój poziom wyposażenia:" />
-                              <RadioButton fx:id="rbBrak" text="Brak sprzętu (Masa własna ciała / Dom)">
+                              <RadioButton fx:id="rbBrak" text="Brak sprzętu (Masa własna ciała / Dom)" textFill="WHITE">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="equipmentGroup" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton fx:id="rbHantle" text="Podstawowy (Hantle, gumy, drążek)" toggleGroup="$equipmentGroup" />
-                              <RadioButton fx:id="rbSiłownia" selected="true" text="Pełna siłownia (Sztangi, maszyny, suwnice)" toggleGroup="$equipmentGroup" />
+                              <RadioButton fx:id="rbHantle" text="Podstawowy (Hantle, gumy, drążek)" textFill="WHITE" toggleGroup="$equipmentGroup" />
+                              <RadioButton fx:id="rbSiłownia" selected="true" text="Pełna siłownia (Sztangi, maszyny, suwnice)" textFill="WHITE" toggleGroup="$equipmentGroup" />
                            </children>
                         </VBox>
                      </content>
@@ -64,10 +64,10 @@
                         <VBox spacing="10.0">
                            <children>
                               <Label text="Zaznacz miejsca, w których odczuwasz ból (zostaną dobrane bezpieczne ćwiczenia):" />
-                              <CheckBox fx:id="cbBólBarki" text="Barki" />
-                              <CheckBox fx:id="cbBólPlecy" text="Dolny odcinek pleców" />
-                              <CheckBox fx:id="cbBólKolana" text="Kolana" />
-                              <CheckBox fx:id="cbBólNadgarstki" text="Nadgarstki" />
+                              <CheckBox fx:id="cbBólBarki" text="Barki" textFill="WHITE" />
+                              <CheckBox fx:id="cbBólPlecy" text="Dolny odcinek pleców" textFill="WHITE" />
+                              <CheckBox fx:id="cbBólKolana" text="Kolana" textFill="WHITE" />
+                              <CheckBox fx:id="cbBólNadgarstki" text="Nadgarstki" textFill="WHITE" />
                            </children>
                         </VBox>
                      </content>
@@ -81,13 +81,13 @@
                               <Slider fx:id="sliderRegeneracja" majorTickUnit="1.0" max="10.0" min="1.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="7.0" />
                               <Separator />
                               <Label text="Aktywność w ciągu dnia (kroki):" />
-                              <RadioButton fx:id="rbKrokiNiskie" selected="true" text="Siedzący tryb życia (poniżej 5k)">
+                              <RadioButton fx:id="rbKrokiNiskie" selected="true" text="Siedzący tryb życia (poniżej 5k)" textFill="WHITE">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="krokiGroup" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton fx:id="rbKrokiSrednie" text="Aktywny tryb życia (5k-10k)" toggleGroup="$krokiGroup" />
-                              <RadioButton fx:id="rbKrokiWysokie" text="Bardzo aktywny (powyżej 10k)" toggleGroup="$krokiGroup" />
+                              <RadioButton fx:id="rbKrokiSrednie" text="Aktywny tryb życia (5k-10k)" textFill="WHITE" toggleGroup="$krokiGroup" />
+                              <RadioButton fx:id="rbKrokiWysokie" text="Bardzo aktywny (powyżej 10k)" textFill="WHITE" toggleGroup="$krokiGroup" />
                            </children>
                         </VBox>
                      </content>
@@ -99,7 +99,7 @@
                            <children>
                               <Label style="-fx-font-weight: bold;" text="Ile dni w tygodniu planujesz trenować?" />
                               <Spinner fx:id="spinnerDni" initialValue="3" max="7" min="1" prefWidth="100.0" />
-                              <Label style="-fx-text-fill: gray; -fx-font-size: 11;" text="*Na podstawie Twojego stażu i dni treningowych system sam dobierze optymalny system (FBW/Split/Góra-Dół)." wrapText="true" />
+                              <Label style="-fx-text-fill: #ffffff; -fx-font-size: 11;" text="*Na podstawie Twojego stażu i dni treningowych system sam dobierze optymalny system (FBW/Split/Góra-Dół)." wrapText="true" />
                            </children>
                         </VBox>
                      </content>

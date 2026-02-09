@@ -3,48 +3,47 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
 <?import java.net.URL?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserPanelController">
+
+<VBox prefHeight="450.0" prefWidth="650.0" spacing="20" styleClass="main-container" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserPanelController">
     <stylesheets>
         <URL value="@style.css" />
     </stylesheets>
-    <children>
-        <Label fx:id="welcomeLabel" layoutX="13.0" layoutY="14.0" prefHeight="30.0" prefWidth="80.0" text="Witaj!">
-            <font><Font name="System Bold" size="18.0" /></font>
-        </Label>
 
-        <Label fx:id="dataLabel" layoutX="100.0" layoutY="14.0" prefHeight="30.0" prefWidth="320.0" text="Twoje dane pojawią się tutaj">
-            <font><Font size="18.0" /></font>
-        </Label>
+    <padding>
+        <javafx.geometry.Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
 
-        <Button fx:id="NewPlan" layoutX="14.0" layoutY="67.0" mnemonicParsing="false" onAction="#handleCreatePlan" prefHeight="85.0" prefWidth="114.0" text="Create a new plan" />
-        <Button fx:id="SavePlans" layoutX="154.0" layoutY="67.0" mnemonicParsing="false" onAction="#handleSavedPlans" prefHeight="85.0" prefWidth="114.0" text="Saved plans" />
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <VBox HBox.hgrow="ALWAYS">
+            <Label fx:id="welcomeLabel" text="Witaj!" styleClass="header-label" />
+            <Label fx:id="dataLabel" text="Twoje dane pojawią się tutaj" styleClass="sub-header" />
+        </VBox>
 
-        <Button fx:id="MonitorButton" layoutX="14.0" layoutY="172.0" mnemonicParsing="false" onAction="#handleMonitorProgress" prefHeight="160.0" prefWidth="350.0" style="-fx-background-color: #f4f4f4; -fx-border-color: #ccc; -fx-border-radius: 5;" text="Monitor Progress">
-            <font>
-                <Font name="System Bold" size="24.0" />
-            </font>
-        </Button>
-
-        <HBox fx:id="finiszWorkout" layoutX="438.0" layoutY="14.0" prefHeight="30.0" prefWidth="135.0" spacing="5.0">
-            <children>
-                <Label fx:id="finishWorkutText" text="Streak:">
-                    <font><Font size="18.0" /></font>
-                </Label>
-                <Label fx:id="finishWorkoutNumber" text="0">
-                    <font><Font size="20.0" /></font>
-                </Label>
-                <ImageView fx:id="finiszWorkoutPng" fitHeight="31.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../../photo/fire_1f525.png" />
-                    </image>
+        <VBox alignment="CENTER" styleClass="streak-box">
+            <HBox alignment="CENTER" spacing="5">
+                <Label text="Streak:" styleClass="streak-text" />
+                <Label fx:id="finishWorkoutNumber" text="0" styleClass="streak-number" />
+                <ImageView fx:id="finiszWorkoutPng" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../../../photo/fire_1f525.png" />
                 </ImageView>
-            </children>
-        </HBox>
+            </HBox>
+            <Button fx:id="DoneTreningButton" onAction="#handleDoneTraining" text="Done Training" styleClass="button-done" />
+        </VBox>
+    </HBox>
 
-        <Button fx:id="DoneTreningButton" layoutX="438.0" layoutY="44.0" mnemonicParsing="false" onAction="#handleDoneTraining" prefHeight="25.0" prefWidth="114.0" text="Done Training" />
+    <Separator />
 
-        <Button layoutX="21.0" layoutY="345.0" mnemonicParsing="false" onAction="#backToMenu" text="Wyloguj" />
-    </children>
-</AnchorPane>
+    <HBox spacing="15" VBox.vgrow="ALWAYS">
+        <VBox spacing="15" prefWidth="200">
+            <Button fx:id="NewPlan" maxWidth="Infinity" VBox.vgrow="ALWAYS" onAction="#handleCreatePlan" text="Create a new plan" styleClass="menu-button" />
+            <Button fx:id="SavePlans" maxWidth="Infinity" VBox.vgrow="ALWAYS" onAction="#handleSavedPlans" text="Saved plans" styleClass="menu-button" />
+        </VBox>
+
+        <Button fx:id="MonitorButton" maxWidth="Infinity" HBox.hgrow="ALWAYS" onAction="#handleMonitorProgress" text="Monitor Progress" styleClass="monitor-button" />
+    </HBox>
+
+    <HBox alignment="CENTER_LEFT">
+        <Button onAction="#backToMenu" text="Wyloguj" styleClass="button-logout" />
+    </HBox>
+</VBox>

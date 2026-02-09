@@ -1,80 +1,97 @@
-/* Główne tło okna - Ciemny grafit */
+
 .root {
-    -fx-background-color: #1e272e;
-    -fx-font-family: "Segoe UI Semibold", sans-serif;
-    -fx-min-width: 450px;
-    -fx-min-height: 400px;
+    -fx-background-color: #121212;
+    -fx-font-family: "Segoe UI", sans-serif;
 }
 
-/* Styl dla wszystkich przycisków - Neonowy błękit */
+/* NAGŁÓWKI */
+.header-label, .title-label {
+    -fx-font-size: 24px;
+    -fx-text-fill: #FF9F43 !important;
+    -fx-font-weight: bold;
+}
+
+.label {
+    -fx-text-fill: #FFFFFF !important;
+}
+
+/* PRZYCISKI  */
 .button {
-    -fx-background-color: #0fbcf9;
-    -fx-text-fill: #ffffff;
+    -fx-background-color: #2D3436;
+    -fx-text-fill: #FFFFFF;
     -fx-font-weight: bold;
     -fx-background-radius: 8;
-    -fx-padding: 10 20;
+    -fx-border-color: #485460;
+    -fx-border-width: 1;
     -fx-cursor: hand;
-    -fx-border-color: rgba(255, 255, 255, 0.1);
-    -fx-border-radius: 8;
 }
 
 .button:hover {
-    -fx-background-color: #4bcffa;
-    -fx-effect: dropshadow(three-pass-box, rgba(15, 188, 249, 0.4), 10, 0, 0, 0);
+    -fx-background-color: #FF9F43;
+    -fx-text-fill: #121212;
+    -fx-border-color: #FF9F43;
 }
 
-/* Przyciski specjalne (Wyloguj/Back) - Koralowy/Czerwony */
-#back, #logoutButton {
-    -fx-background-color: #f53b57;
+/* Specjalny przycisk na dole Survey */
+.button-generate {
+    -fx-background-color: #3D4446;
+    -fx-border-color: #FF9F43;
+    -fx-border-width: 2;
+    -fx-font-size: 16px;
+    -fx-padding: 15;
 }
 
-#back:hover, #logoutButton:hover {
-    -fx-background-color: #ff5e57;
-    -fx-effect: dropshadow(three-pass-box, rgba(245, 59, 87, 0.4), 10, 0, 0, 0);
+/* KWESTIONARIUSZ  */
+.accordion {
+    -fx-background-color: transparent;
 }
 
-/* Pola tekstowe - Ciemne z jasnym tekstem */
-.text-field, .password-field {
-    -fx-background-color: #2f3542;
-    -fx-text-fill: #ffffff;
-    -fx-border-color: #57606f;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-    -fx-padding: 7;
+.titled-pane {
+    -fx-text-fill: #FFFFFF;
 }
 
-.text-field:focused, .password-field:focused {
-    -fx-border-color: #0fbcf9;
-    -fx-border-width: 1.5;
+/* Tytuł panelu gdy jest zamknięty */
+.titled-pane > .title {
+    -fx-background-color: #1E272E;
+    -fx-border-color: #485460;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 12;
 }
 
-/* Napisy (Label) - Jasne srebro */
-.label {
-    -fx-text-fill: #d2dae2;
-    -fx-font-size: 13px;
+/* Tytuł panelu gdy jest OTWARTY */
+.titled-pane:expanded > .title {
+    -fx-background-color: #FF9F43;
 }
 
-/* Nagłówki (Witaj!) - Biały */
-#welcomeLabel {
-    -fx-font-size: 22px;
-    -fx-text-fill: #ffffff;
+.titled-pane:expanded > .title > .text {
+    -fx-fill: #121212; /* Kolor tekstu nagłówka po otwarciu */
     -fx-font-weight: bold;
 }
 
-/* Wykres - Neonowy styl */
-.chart {
-    -fx-padding: 10;
+/* Wnętrze rozwiniętego panelu */
+.titled-pane > .content {
+    -fx-background-color: #121212;
+    -fx-border-color: #FF9F43;
+    -fx-border-width: 0 1 1 1;
 }
 
-.chart-plot-background {
-    -fx-background-color: #2f3542;
+/*  KONTROLKI  */
+.radio-button .radio, .check-box .box {
+    -fx-background-color: #2D3436;
+    -fx-border-color: #FF9F43;
+    -fx-text-fill: #f1f1f1;
 }
 
-.chart-series-area-line {
-    -fx-stroke: #05c46b; /* Neonowa zieleń postępu */
-    -fx-stroke-width: 4px;
+.radio-button:selected .dot, .check-box:selected .mark {
+    -fx-background-color: #FF9F43;
 }
 
-.chart-series-area-fill {
-    -fx-fill: rgba(5, 196, 107, 0.15);
+
+.slider .track { -fx-background-color: #2D3436; }
+.slider .thumb { -fx-background-color: #FF9F43; }
+
+.spinner {
+    -fx-background-color: #2D3436;
+    -fx-border-color: #FF9F43;
 }
+.spinner .text-field { -fx-text-fill: white; -fx-background-color: transparent; }
